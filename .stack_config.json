@@ -1,0 +1,16 @@
+{
+  "project": "ingMaster",
+  "domain": "ing-master.com",
+  "email": "andrew19f@gmail.com",
+  "staging": false,
+  "backs": [
+    "gestion",
+    "control_personal"
+  ],
+  "fronts": [
+    {
+      "name": "gestion",
+      "kind": "vue"
+    }
+  ]
+}

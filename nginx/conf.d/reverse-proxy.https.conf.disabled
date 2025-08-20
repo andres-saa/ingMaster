@@ -1,0 +1,56 @@
+
+server {
+    listen 443 ssl http2;
+    server_name gestion.ing-master.com;
+
+    ssl_certificate /etc/letsencrypt/live/gestion.ing-master.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/gestion.ing-master.com/privkey.pem;
+    include /etc/nginx/conf.d/ssl_params.conf;
+
+    location / {
+        proxy_pass http://front_gestion:80;
+        include /etc/nginx/proxy_params.conf;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name api.gestion.ing-master.com;
+
+    ssl_certificate /etc/letsencrypt/live/api.gestion.ing-master.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.gestion.ing-master.com/privkey.pem;
+    include /etc/nginx/conf.d/ssl_params.conf;
+
+    location / {
+        proxy_pass http://api_gestion:80;
+        include /etc/nginx/proxy_params.conf;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name api.control_personal.ing-master.com;
+
+    ssl_certificate /etc/letsencrypt/live/api.control_personal.ing-master.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.control_personal.ing-master.com/privkey.pem;
+    include /etc/nginx/conf.d/ssl_params.conf;
+
+    location / {
+        proxy_pass http://api_control_personal:80;
+        include /etc/nginx/proxy_params.conf;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name pgadmin.ing-master.com;
+
+    ssl_certificate /etc/letsencrypt/live/pgadmin.ing-master.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/pgadmin.ing-master.com/privkey.pem;
+    include /etc/nginx/conf.d/ssl_params.conf;
+
+    location / {
+        proxy_pass http://pgadmin:80;
+        include /etc/nginx/proxy_params.conf;
+    }
+}
