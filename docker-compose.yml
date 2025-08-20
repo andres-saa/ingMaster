@@ -2,7 +2,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: ingMaster_postgres_dev
+    container_name: ing_master_postgres_dev
     env_file: ./db/.env
     environment:
       - TZ=America/Bogota
@@ -15,7 +15,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:8.10
-    container_name: ingMaster_pgadmin_dev
+    container_name: ing_master_pgadmin_dev
     env_file: ./db/.env
     environment:
       - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True
@@ -28,12 +28,12 @@ services:
     depends_on: [postgres]
     restart: unless-stopped
 
-  api_controlpersonal:
-    build: { context: ./backend/controlpersonal, target: dev }
-    container_name: api_controlpersonal
-    env_file: ./backend/controlpersonal/.env
+  api_gestion:
+    build: { context: ./backend/gestion, target: dev }
+    container_name: api_gestion
+    env_file: ./backend/gestion/.env
     volumes:
-      - ./backend/controlpersonal/app:/code
+      - ./backend/gestion/app:/code
     environment:
       CHOKIDAR_USEPOLLING: "true"
     depends_on: [postgres]
@@ -41,12 +41,12 @@ services:
       - '8000:80'
     restart: unless-stopped
 
-  api_gestion:
-    build: { context: ./backend/gestion, target: dev }
-    container_name: api_gestion
-    env_file: ./backend/gestion/.env
+  api_control:
+    build: { context: ./backend/control, target: dev }
+    container_name: api_control
+    env_file: ./backend/control/.env
     volumes:
-      - ./backend/gestion/app:/code
+      - ./backend/control/app:/code
     environment:
       CHOKIDAR_USEPOLLING: "true"
     depends_on: [postgres]
@@ -70,12 +70,12 @@ services:
 
   proxy:
     image: nginx:1.27-alpine
-    container_name: ingMaster_proxy_dev
+    container_name: ing_master_proxy_dev
     ports: [ '80:80' ]
     volumes:
       - ./nginx_dev/conf.d:/etc/nginx/conf.d:ro
       - ./nginx_dev/proxy_params.conf:/etc/nginx/proxy_params.conf:ro
-    depends_on: [postgres, pgadmin, api_controlpersonal, api_gestion, front_gestion]
+    depends_on: [postgres, pgadmin, api_gestion, api_control, front_gestion]
     restart: unless-stopped
 
 volumes:

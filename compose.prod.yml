@@ -22,17 +22,17 @@ services:
     depends_on: [postgres]
     restart: unless-stopped
 
-  api_controlpersonal:
-    build: { context: ./backend/controlpersonal, target: prod }
-    container_name: api_controlpersonal
-    env_file: ./backend/controlpersonal/.env
-    depends_on: [postgres]
-    restart: unless-stopped
-
   api_gestion:
     build: { context: ./backend/gestion, target: prod }
     container_name: api_gestion
     env_file: ./backend/gestion/.env
+    depends_on: [postgres]
+    restart: unless-stopped
+
+  api_control:
+    build: { context: ./backend/control, target: prod }
+    container_name: api_control
+    env_file: ./backend/control/.env
     depends_on: [postgres]
     restart: unless-stopped
 
@@ -51,7 +51,7 @@ services:
       - ./nginx/proxy_params.conf:/etc/nginx/proxy_params.conf:ro
       - ./nginx/certbot/www:/var/www/certbot:ro
       - ./nginx/letsencrypt:/etc/letsencrypt:ro
-    depends_on: [postgres, pgadmin, api_controlpersonal, api_gestion, front_gestion]
+    depends_on: [postgres, pgadmin, api_gestion, api_control, front_gestion]
     restart: unless-stopped
 
   certbot:
@@ -62,7 +62,7 @@ services:
       - ./nginx/letsencrypt:/etc/letsencrypt
     depends_on: [proxy]
     entrypoint: sh
-    command: -c "if [ -n '-d api.controlpersonal.cremososmateo.com -d api.gestion.cremososmateo.com -d gestion.cremososmateo.com -d pgadmin.cremososmateo.com' ]; then certbot certonly -n --keep-until-expiring --webroot -w /var/www/certbot -d api.controlpersonal.cremososmateo.com -d api.gestion.cremososmateo.com -d gestion.cremososmateo.com -d pgadmin.cremososmateo.com --email \"andrew19f@gmail.com\" --agree-tos --no-eff-email ; fi; trap exit TERM; while :; do certbot renew -n --webroot -w /var/www/certbot --quiet || true; sleep 12h; done"
+    command: -c "if [ -n '-d api.control.cremososmateo.com -d api.gestion.cremososmateo.com -d gestion.cremososmateo.com -d pgadmin.cremososmateo.com' ]; then certbot certonly -n --keep-until-expiring --webroot -w /var/www/certbot -d api.control.cremososmateo.com -d api.gestion.cremososmateo.com -d gestion.cremososmateo.com -d pgadmin.cremososmateo.com --email \"andrew19f@gmail.com\" --agree-tos --no-eff-email ; fi; trap exit TERM; while :; do certbot renew -n --webroot -w /var/www/certbot --quiet || true; sleep 12h; done"
     restart: unless-stopped
 
 volumes:

@@ -15,20 +15,6 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name api.controlpersonal.cremososmateo.com;
-
-    ssl_certificate /etc/letsencrypt/live/api.controlpersonal.cremososmateo.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/api.controlpersonal.cremososmateo.com/privkey.pem;
-    include /etc/nginx/conf.d/ssl_params.conf;
-
-    location / {
-        proxy_pass http://api_controlpersonal:80;
-        include /etc/nginx/proxy_params.conf;
-    }
-}
-
-server {
-    listen 443 ssl http2;
     server_name api.gestion.cremososmateo.com;
 
     ssl_certificate /etc/letsencrypt/live/api.gestion.cremososmateo.com/fullchain.pem;
@@ -37,6 +23,20 @@ server {
 
     location / {
         proxy_pass http://api_gestion:80;
+        include /etc/nginx/proxy_params.conf;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name api.control.cremososmateo.com;
+
+    ssl_certificate /etc/letsencrypt/live/api.control.cremososmateo.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.control.cremososmateo.com/privkey.pem;
+    include /etc/nginx/conf.d/ssl_params.conf;
+
+    location / {
+        proxy_pass http://api_control:80;
         include /etc/nginx/proxy_params.conf;
     }
 }
