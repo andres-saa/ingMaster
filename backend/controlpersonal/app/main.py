@@ -3,4 +3,4 @@ app=FastAPI()
 
 @app.get('/')
 def hi():
-    return {'msg':'control_personal'}
+    return {'msg':'controlpersonal'}

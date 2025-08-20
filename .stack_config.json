@@ -4,7 +4,7 @@
   "email": "andrew19f@gmail.com",
   "staging": false,
   "backs": [
-    "control_personal",
+    "controlpersonal",
     "gestion"
   ],
   "fronts": [
