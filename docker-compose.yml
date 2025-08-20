@@ -28,12 +28,12 @@ services:
     depends_on: [postgres]
     restart: unless-stopped
 
-  api_gestion:
-    build: { context: ./backend/gestion, target: dev }
-    container_name: api_gestion
-    env_file: ./backend/gestion/.env
+  api_control_personal:
+    build: { context: ./backend/control_personal, target: dev }
+    container_name: api_control_personal
+    env_file: ./backend/control_personal/.env
     volumes:
-      - ./backend/gestion/app:/code
+      - ./backend/control_personal/app:/code
     environment:
       CHOKIDAR_USEPOLLING: "true"
     depends_on: [postgres]
@@ -41,12 +41,12 @@ services:
       - '8000:80'
     restart: unless-stopped
 
-  api_control_personal:
-    build: { context: ./backend/control_personal, target: dev }
-    container_name: api_control_personal
-    env_file: ./backend/control_personal/.env
+  api_gestion:
+    build: { context: ./backend/gestion, target: dev }
+    container_name: api_gestion
+    env_file: ./backend/gestion/.env
     volumes:
-      - ./backend/control_personal/app:/code
+      - ./backend/gestion/app:/code
     environment:
       CHOKIDAR_USEPOLLING: "true"
     depends_on: [postgres]
@@ -75,7 +75,7 @@ services:
     volumes:
       - ./nginx_dev/conf.d:/etc/nginx/conf.d:ro
       - ./nginx_dev/proxy_params.conf:/etc/nginx/proxy_params.conf:ro
-    depends_on: [postgres, pgadmin, api_gestion, api_control_personal, front_gestion]
+    depends_on: [postgres, pgadmin, api_control_personal, api_gestion, front_gestion]
     restart: unless-stopped
 
 volumes:

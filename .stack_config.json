@@ -1,11 +1,11 @@
 {
   "project": "ingMaster",
-  "domain": "ing-master.com",
+  "domain": "cremososmateo.com",
   "email": "andrew19f@gmail.com",
   "staging": false,
   "backs": [
-    "gestion",
-    "control_personal"
+    "control_personal",
+    "gestion"
   ],
   "fronts": [
     {
